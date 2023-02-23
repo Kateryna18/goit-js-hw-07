@@ -39,12 +39,20 @@ galleryContainerRef.insertAdjacentHTML(
 galleryContainerRef.addEventListener("click", (event) => {
   event.preventDefault();
   const originalImgRef = event.target.dataset.source;
-  const changeSrc = event.target.setAttribute("src", `${originalImgRef}`);
-  console.log(originalImgRef);
 
-  const instance = basicLightbox.create(`
-  <img src=${changeSrc} width="800" height="600">
-`);
+  const instance = basicLightbox.create(
+    `
+  <img src="" width="800" height="600">
+`,
+    {
+      onShow: (instance) => {
+        const elem = instance.element();
+        return elem.setAttribute("src", `${originalImgRef}`);
+      }
+    }
+  );
 
   instance.show();
 });
+
+// Заміна значення атрибута src елемента <img> в модальному вікні перед відкриттям.
