@@ -17,7 +17,7 @@ function createGalleryItems(galleryItems) {
     <img
       class="gallery__image"
       src="${preview}"
-      data-source="href=${original}"
+      data-source="${original}"
       alt="${description}"
     />
   </a>
@@ -41,18 +41,11 @@ galleryContainerRef.addEventListener("click", (event) => {
   const originalImgRef = event.target.dataset.source;
 
   const instance = basicLightbox.create(
-    `
-  <img src="" width="800" height="600">
-`,
-    {
-      onShow: (instance) => {
-        const elem = instance.element();
-        return elem.setAttribute("src", `${originalImgRef}`);
-      }
-    }
+    `<div class="modal">
+    <img src="${originalImgRef}" width="800" height="600">
+</div>
+`
   );
 
   instance.show();
 });
-
-// Заміна значення атрибута src елемента <img> в модальному вікні перед відкриттям.
