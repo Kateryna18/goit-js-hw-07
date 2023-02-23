@@ -1,18 +1,18 @@
-import { galleryItems } from './gallery-items.js';
+import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
 // 1. Створення і рендер розмітки на підставі масиву даних galleryItems і наданого шаблону елемента галереї.
 // 2. Реалізація делегування на div.gallery і отримання url великого зображення.
-// 3. Підключення скрипту і стилів бібліотеки модального вікна basicLightbox. 
+// 3. Підключення скрипту і стилів бібліотеки модального вікна basicLightbox.
 // Використовуй CDN сервіс jsdelivr і додай у проект посилання на мініфіковані (.min) файли бібліотеки.
 // 4.Відкриття модального вікна по кліку на елементі галереї. Для цього ознайомся з документацією і прикладами.
-// 5. Заміна значення атрибута src елемента <img> в модальному вікні перед відкриттям. 
+// 5. Заміна значення атрибута src елемента <img> в модальному вікні перед відкриттям.
 // Використовуй готову розмітку модального вікна із зображенням з прикладів бібліотеки basicLightbox.
 
-
 function createGalleryItems(galleryItems) {
-    return galleryItems.map(({preview, original, description}) => {
-return `<div class="gallery__item">
+  return galleryItems
+    .map(({ preview, original, description }) => {
+      return `<div class="gallery__item">
   <a class="gallery__link" href="large-image.jpg">
     <img
       class="gallery__image"
@@ -21,19 +21,30 @@ return `<div class="gallery__item">
       alt="${description}"
     />
   </a>
-</div>`}).join('');
+</div>`;
+    })
+    .join("");
 }
 
 // FIND ELEMENT
-const galleryContainerRef = document.querySelector('.gallery');
+const galleryContainerRef = document.querySelector(".gallery");
 
 // RENDER MARKUP IN HTML
-galleryContainerRef.insertAdjacentHTML('afterbegin', createGalleryItems(galleryItems));
+galleryContainerRef.insertAdjacentHTML(
+  "afterbegin",
+  createGalleryItems(galleryItems)
+);
 
 // DELEGATION OF THE EVENT
-galleryContainerRef.addEventListener('click', (event) => {
-    event.preventDefault();
-    const originalImgRef = event.target.dataset.source;
-    console.log(originalImgRef);
-})
+galleryContainerRef.addEventListener("click", (event) => {
+  event.preventDefault();
+  const originalImgRef = event.target.dataset.source;
+  const changeSrc = event.target.setAttribute("src", `${originalImgRef}`);
+  console.log(originalImgRef);
 
+  const instance = basicLightbox.create(`
+  <img src=${changeSrc} width="800" height="600">
+`);
+
+  instance.show();
+});
