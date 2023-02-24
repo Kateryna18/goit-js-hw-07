@@ -37,6 +37,10 @@ galleryContainerRef.insertAdjacentHTML(
 
 // DELEGATION OF THE EVENT
 galleryContainerRef.addEventListener("click", (event) => {
+  if(event.target.nodeName !== 'IMG') {
+    return;
+  }
+  
   event.preventDefault();
   const originalImgRef = event.target.dataset.source;
 
@@ -44,8 +48,28 @@ galleryContainerRef.addEventListener("click", (event) => {
     `<div class="modal">
     <img src="${originalImgRef}" width="800" height="600">
 </div>
-`
+`, {
+  onShow: (instance) => {
+    window.addEventListener('keydown', onEscKeyPress)
+  }
+}
   );
 
   instance.show();
+
+  function onEscKeyPress(event) {
+    console.log(event.code);
+    
+if(event.code === 'Escape') {
+  instance.close(() => window.removeEventListener('keydown', onEscKeyPress))
+}
+}
+
+
 });
+
+// function onEscKeyPress(event) {
+// if(event.code === 'Escape') {
+//   instance.close()
+// }
+// }
