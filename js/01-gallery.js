@@ -9,6 +9,8 @@ import { galleryItems } from "./gallery-items.js";
 // 5. Заміна значення атрибута src елемента <img> в модальному вікні перед відкриттям.
 // Використовуй готову розмітку модального вікна із зображенням з прикладів бібліотеки basicLightbox.
 
+
+
 function createGalleryItems(galleryItems) {
   return galleryItems
     .map(({ preview, original, description }) => {
