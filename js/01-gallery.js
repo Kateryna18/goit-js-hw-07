@@ -9,8 +9,6 @@ import { galleryItems } from "./gallery-items.js";
 // 5. Заміна значення атрибута src елемента <img> в модальному вікні перед відкриттям.
 // Використовуй готову розмітку модального вікна із зображенням з прикладів бібліотеки basicLightbox.
 
-
-
 function createGalleryItems(galleryItems) {
   return galleryItems
     .map(({ preview, original, description }) => {
@@ -39,39 +37,33 @@ galleryContainerRef.insertAdjacentHTML(
 
 // DELEGATION OF THE EVENT
 galleryContainerRef.addEventListener("click", (event) => {
-  if(event.target.nodeName !== 'IMG') {
+  if (event.target.nodeName !== "IMG") {
     return;
   }
-  
   event.preventDefault();
+
   const originalImgRef = event.target.dataset.source;
 
   const instance = basicLightbox.create(
     `<div class="modal">
     <img src="${originalImgRef}" width="800" height="600">
 </div>
-`, {
-  onShow: (instance) => {
-    window.addEventListener('keydown', onEscKeyPress)
-  }
-}
+`,
+    {
+      onShow: (instance) => {
+        window.addEventListener("keydown", onEscKeyPress);
+      },
+    }
   );
 
   instance.show();
 
+  
   function onEscKeyPress(event) {
-    console.log(event.code);
-    
-if(event.code === 'Escape') {
-  instance.close(() => window.removeEventListener('keydown', onEscKeyPress))
-}
-}
-
-
+    if (event.code === "Escape") {
+      instance.close(() =>
+        window.removeEventListener("keydown", onEscKeyPress)
+      );
+    }
+  }
 });
-
-// function onEscKeyPress(event) {
-// if(event.code === 'Escape') {
-//   instance.close()
-// }
-// }
